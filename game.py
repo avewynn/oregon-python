@@ -1,4 +1,5 @@
 from random import *
+import webbrowser
 name = ""
 day = 0
 food = 0
@@ -6,7 +7,7 @@ clothing = 0
 medicine = 0
 difficulty = 0
 distance = 0
-goal = 10
+goal = 5
 alive = True
 
 
@@ -285,7 +286,9 @@ def end():
     
 #If goal reached
 def victory():
-    print("You made it, " + name + "!")
+    print("You made it to Oregon, " + name + "!")
+    print("It took you " + str(days))
+    print()
     
 #main    
 if __name__ == "__main__":
