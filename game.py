@@ -11,27 +11,23 @@ alive = True
 
 
 def start():
-    global name
+    #global allows changing of global variables
+    global name, difficulty
     
     print("Welcome to the Oregon Trail!")
     
-    #gets name
+    #This gets name
     while(len(name) < 1):
         print("Input a name")
         name = input()
-    
-    print("Enter a number between 1-3")
-    print("Difficulty level:")
+    #This gets difficulty
+    print("Enter a number between 1-3 for your difficulty level. 3 is the most challenging.")
     level = "0"
     while(not (level == "1" or level == "2" or level == "3")):
         level = input()
     
-    global difficulty
     difficulty = int(level)
-    
-    #loop until input
-    print("Press enter to continue.")
-    input()
+    #Moves to market phase
     market()
         
 
@@ -39,6 +35,8 @@ def market():
     global food, clothing, medicine
     
     print("Welcome to the market! You'll need to stock up on materials before your trip.")
+    print("Each day you travel, you'll lose a random resource.")
+    #Each difficulty gives a different amount of item choices
     choices = 0
     if difficulty == 1:
         choices = 12
@@ -46,7 +44,7 @@ def market():
         choices = 9
     elif difficulty == 3:
         choices = 6
-        
+    #After each choice, displays choices left and your updated inventory    
     while(choices > 0):
         print()
         print("Choices left: " + str(choices))
@@ -117,7 +115,7 @@ def trail():
         else:
             pressOn()
         
-        
+#Depending on chance, a random event plays out  
 def hunt():
     global food, medicine, day
     print()
@@ -125,47 +123,48 @@ def hunt():
     x = randint(0, 4)
     if x == 0:
         print("You bagged a buffalo! Food +3")
-        food += 2
+        food += 3
     elif x == 1:
-        badEvent()
-    elif x == 2:
-        print("You stepped on a snake, stupid! Now you're poisoned. Medicine -1")
+        print("You stepped on a snake, stupid! Now you're poisoned. Medicine -2")
         medicine -= 2
-    elif x == 3:
-        print("You whiffed your shot. Food +0")
-        food -= 1
-    else:
+    elif x == 2:
         print("You successfully snagged 2 young deer. Food +3")
         food += 3
+    elif x == 3:
+        print("Your beef jerky fell out of your pocket. Food -1")
+        food -= 1
+    elif x == 4:
+        badEvent()
     
     trail()
     
-
+#Depending on chance, a random event plays out
 def scavenge():
     global food, medicine, clothing, day
     print()
-    
     x = randint(0, 4)
     if x == 0:
-        print("You steal some shirts from a caravan. Clothing +2, thief.")
-        clothing += 2
+        print("You steal a shirt from a caravan. Clothing +1, thief.")
+        clothing += 1
     elif x == 1:
         print("Those berries were poisonous! Your clothing was ruined as well. Medicine -1, Clothing -2")
         medicine -= 1
         clothing -= 2
     elif x == 2:
-        print("An abandoned house! Clothing +1, Medicine +2.")
-        clothing += 1
-        medicine += 2
+        print("An abandoned house! Clothing +2, Food +1.")
+        clothing += 2
+        food += 1
     elif x == 3:
-        badEvent()
-    else:
-        print("You stumble upon the corpse of a travelling medic. Medicine +2")
+        print("You stumble upon the corpse of a travelling medic. You leave an apple by his feet. Medicine +2, Food -1")
         medicine += 2
+        food -= 1
+    elif x == 4:
+        badEvent()
+    
         
     trail()
     
-
+#Depending on chance, a random event plays out
 def rest():
     global food, medicine, clothing, day
     print()
@@ -179,18 +178,18 @@ def rest():
         print("A wolf is attracted by your campfire. He had rabies. Medicine -2")
         medicine -= 2
     elif x == 2:
-        print("You decide to imbibe on the sap of a small tree. Medicine -1")
+        print("You decide to imbibe on the sap of a small tree. Disgusting, but rejuvenating. Medicine ")
         medicine -= 1
     elif x == 3:
         print("You fight a jackrabbit for some herbs. Medicine +2, Clothing -1")
         medicine += 2
         clothing -= 1
-    else:
+    elif x == 4:
         badEvent()
         
     trail()
     
-
+#50/50 chance of something bad happening, player moves forward regardless
 def pressOn():
     global distance, day
     print()
@@ -205,12 +204,12 @@ def pressOn():
         
     trail()
         
-
+#Random chance of triggering
 def badEvent():
     global food, medicine, clothing, day, alive
     print()
     
-    x = randint(0, 6)
+    x = randint(0, 5)
     if x == 0:
         if food <= 0:
             print("You die of starvation. Why didn't you buy more food?")
@@ -243,7 +242,7 @@ def badEvent():
         print("You die of dysentery. That's the Oregon Trail!")
         alive = False
     
-    
+#Bandits! Decision making time    
 def bandits():
         global food, medicine, clothing, alive
         
@@ -280,13 +279,14 @@ def bandits():
             else:
                 print("Your forceful tone of voice intimidates the bandit leader into leaving you alone.")
                 print("You continue on.")
-    
+#If dead  
 def end():
     print("It was a valiant effort, " + name)
     
-    
+#If goal reached
 def victory():
     print("You made it, " + name + "!")
     
+#main    
 if __name__ == "__main__":
     start()
