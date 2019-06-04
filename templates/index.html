@@ -39,46 +39,7 @@
       </div>
     </div>
     <script>
-    // //2 things this does: send input, update display
-    //   $(document).ready(function() {
-    //     var text; //what they type in
-    //     //on enter press
-    //     $("form").submit(function(event){
-    //       event.preventDefault(); //don't reload
-    //       //get the text from the text box
-    //       text = document.getElementById('test').value;
-  		// 	  //clear text box
-  		// 	  document.getElementById("test").value = "";
-    //       //ajax apparently let's us get data and update
-    //       $.ajax({
-    //   			url: '/grab',
-    //   			//bring form data
-    //   		  data: $('form').serialize(),
-    //   		  //post means send
-    //   			type: 'POST',
-    //   			dataType: "json",
-    //   			//if it doesn't crash
-    //   			success: function(response){
-    //   			  //testing
-    //   				console.log(response);
-    //   				//show what they typed in
-    //   				$("<h4>" + text + "</h4>").appendTo("#text-box");
-    //   				//add the following to the table
-    //   				response['data'].forEach(element => {
-    //           	$("<h3>" + element + "</h3>").appendTo("#text-box"); //this is the data from my_print
-    //   				});
-    //   				var myWindow = document.getElementById("play-window"); //scrolls text to bottom
-    //           myWindow.scrollTop = myWindow.scrollHeight;
 
-    //   			},
-    //   			error: function(error){
-    //   				console.log(error);
-    //   			}
-    //   		});
-
-    //   });
-    // });
-    
     $(document).ready(function(){ //document is whole site, runs function when ready
       var typed;
       //Run getData every 500 milliseconds
