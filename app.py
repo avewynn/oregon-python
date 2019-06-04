@@ -475,6 +475,10 @@ def server():
             #dumps output into json format, sends to site for later display
         return json.dumps({'output': tempOutput})
 
+@app.route("/about", methods=['GET', 'POST'])
+def about():
+    return render_template("about.html")
+    
 #main
 if __name__ == "__main__":
     app.run(debug=True)
