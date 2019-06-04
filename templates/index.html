@@ -1,0 +1,130 @@
+<html>
+  <head>
+        <!-- This is all bootstrap copy and paste-->
+        <link rel="stylesheet" href="/static/css/main.css">
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet"/>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+        <title>Oregon Trail!</title>
+  </head>
+  <!-- Navbar -->
+  <body style="background-color:#4f6282;">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark"> 
+        <a class="navbar-brand" href="/"><span class="blue">Oregon Trail</span></a>
+        <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+                <ul class="navbar-nav mr-auto mt-2">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                </ul>
+        </div>
+    </nav>
+    <div class="main-window">
+      <div class="play-window" id="play-window">
+        <div class="text-box" id="text-box">
+          <h2>Welcome to the Oregon Trail!</h2>
+          <h3>Things may get a little rowdy here! So if you're ready to face the trails...</h3>
+          <h3> Press Enter To Begin!</h3>
+        </div>
+      </div>
+      <div class="input-box">
+        <form id="inp" action="" role="form">
+          Input: <input type="text" id="text" name="inp" class="form-control" placeholder="">
+        </form>
+      </div>
+    </div>
+    <script>
+    // //2 things this does: send input, update display
+    //   $(document).ready(function() {
+    //     var text; //what they type in
+    //     //on enter press
+    //     $("form").submit(function(event){
+    //       event.preventDefault(); //don't reload
+    //       //get the text from the text box
+    //       text = document.getElementById('test').value;
+  		// 	  //clear text box
+  		// 	  document.getElementById("test").value = "";
+    //       //ajax apparently let's us get data and update
+    //       $.ajax({
+    //   			url: '/grab',
+    //   			//bring form data
+    //   		  data: $('form').serialize(),
+    //   		  //post means send
+    //   			type: 'POST',
+    //   			dataType: "json",
+    //   			//if it doesn't crash
+    //   			success: function(response){
+    //   			  //testing
+    //   				console.log(response);
+    //   				//show what they typed in
+    //   				$("<h4>" + text + "</h4>").appendTo("#text-box");
+    //   				//add the following to the table
+    //   				response['data'].forEach(element => {
+    //           	$("<h3>" + element + "</h3>").appendTo("#text-box"); //this is the data from my_print
+    //   				});
+    //   				var myWindow = document.getElementById("play-window"); //scrolls text to bottom
+    //           myWindow.scrollTop = myWindow.scrollHeight;
+
+    //   			},
+    //   			error: function(error){
+    //   				console.log(error);
+    //   			}
+    //   		});
+
+    //   });
+    // });
+    
+    $(document).ready(function(){ //document is whole site, runs function when ready
+      var typed;
+      //Run getData every 500 milliseconds
+      setInterval(getData, 500);
+      //When form submitted with enter
+      $('form').submit(function(event){
+        event.preventDefault(); //stops reload because game is on one page
+        typed = document.getElementById('text').value; //got the value of the textbox
+        $("<h4>" + typed + "</h4>").appendTo("#text-box");
+        
+        //ajax communicates with the server (flask)
+        $.ajax({
+          url: '/server',
+          data: $('form').serialize(), //serialize turns form into readable data
+          type: 'POST', //post request
+          success: function(response){ //response is what is given back from server
+            console.log(response);
+          },
+          error: function(response){
+            console.log(response);
+          }
+        });
+        document.getElementById('text').value = ''; //clears the box
+      });
+    });
+    function getData(){
+      $.ajax({
+        url: '/server',
+        type: 'GET',
+        dataType: 'json',
+        success: function(response){
+          console.log(response);
+          
+          //For each call to myPrint, adds new h3
+          response['output'].forEach(element => {
+            $("<h3>" + element + "</h3>").appendTo("#text-box");
+          });
+          //Scrolls to bottom automatically
+          var myWindow = document.getElementById("play-window");               
+          myWindow.scrollTop = myWindow.scrollHeight;
+        },
+        error: function(response){
+          console.log(response);
+        }
+      });
+    }
+    </script>
+  </body>
+</html>

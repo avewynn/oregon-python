@@ -157,9 +157,9 @@ def scavenge():
         print("You steal some shirts from a caravan. Clothing +2, thief.")
         clothing += 2
     elif x == 1:
-        print("Those berries were poisonous! Your shirt was ruined as well. Medicine -1, Clothing -2")
+        print("Those berries were poisonous! Your shirt was ruined as well. Medicine -1, Clothing -1")
         medicine -= 1
-        clothing -= 2
+        clothing -= 1
     elif x == 2:
         print("An abandoned house! Clothing +3")
         clothing += 3
